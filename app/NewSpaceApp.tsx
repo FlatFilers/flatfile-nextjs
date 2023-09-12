@@ -39,8 +39,9 @@ export default function App() {
 
   return (
     <div>
-      <div className={styles.description}>
+      <div>
         <button
+          className={styles.contrast}
           onClick={() => {
             setShowSpace(!showSpace);
           }}
@@ -49,7 +50,7 @@ export default function App() {
         </button>
       </div>
       {showSpace && (
-        <div className={styles.spaceWrapper}>
+        <div id="flatfile_iFrameContainer">
           <Space setShowSpace={setShowSpace} />
         </div>
       )}

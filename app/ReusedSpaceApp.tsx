@@ -52,8 +52,9 @@ function Home() {
 
   return (
     <div>
-      <div className={styles.description}>
+      <div>
         <button
+          className={styles.contrast}
           onClick={() => {
             setShowSpace(!showSpace);
           }}
@@ -62,7 +63,7 @@ function Home() {
         </button>
       </div>
       {showSpace && (
-        <div className={styles.spaceWrapper}>
+        <div id="flatfile_iFrameContainer">
           {data?.space?.data?.accessToken ? (
             <Space
               setShowSpace={setShowSpace}
