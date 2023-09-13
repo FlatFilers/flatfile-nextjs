@@ -8,8 +8,8 @@ import styles from "./page.module.css";
 const spaceProps: ISpace = {
   name: "Embedded Space",
   // to test locally add your local vars here
-  publishableKey: "pk_3d34f9821645462ca869cc69a9258ef5",
-  environmentId: "us_env_Eqdlko0r",
+  publishableKey: "pk_1234",
+  environmentId: "us_env_1234",
   // workbook: config,
   // themeConfig: makeTheme({ primaryColor: "#546a76", textColor: "#fff" }),
   // sidebarConfig: {

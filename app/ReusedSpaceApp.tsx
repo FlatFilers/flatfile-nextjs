@@ -4,7 +4,8 @@ import { ISpace, useSpace } from "@flatfile/react";
 import styles from "./page.module.css";
 import { useEffect } from "react";
 
-const spaceId = "us_sp_d8xf8bk0";
+const spaceId = "us_sp_1234";
+const environmentId = "us_env_1234";
 
 const Space = ({
   setShowSpace,
@@ -18,7 +19,7 @@ const Space = ({
   }
 
   const spaceProps: ISpace = {
-    environmentId: "us_env_Eqdlko0r",
+    environmentId: environmentId,
     space: {
       // PUT SPACE ID TO REUSE HERE
       id: spaceId,
