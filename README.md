@@ -1,6 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
+### Pre-requisites
+- Be sure you're running Node 16+. If you use nvm, you should already be on Node 18.
+- Install your node modules. 
+- Copy .env.example to .env `cp .env.example .env` and add your Secret Key to the .env file. You can find your secret key by logging in to [Flatfile](platform.flatfile.com) and going to your Developer settings tab and copying your Secret key.
 
 First, run the development server:
 
