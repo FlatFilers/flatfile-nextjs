@@ -12,7 +12,7 @@ export default function Home() {
         they left off until the task is done.
       </p>
       <div className="py-10">
-        <ReusedSpaceApp spaceId={"us_sp_2JGr8Og4"} environmentId={"us_env_m8mZD2Qb"} />
+        <ReusedSpaceApp spaceId={""} environmentId={""} />
       </div>
     </div>
   );

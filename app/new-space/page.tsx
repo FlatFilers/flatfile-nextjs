@@ -8,9 +8,9 @@ import NewSpaceApp from "./NewSpaceApp";
 const spaceProps: ISpace = {
   name: "Embedded Space",
   // to test locally add your publishableKey here, for example: pk_12345,
-  publishableKey: "pk_bd6edb45b11f44688a17fa9963ac82f1",
+  publishableKey: "",
   // to test locally add your environmentId here, for example: us_env_12345,
-  environmentId: "us_env_m8mZD2Qb",
+  environmentId: "",
   workbook,
   listener: listener,
   // themeConfig: makeTheme({ primaryColor: "#546a76", textColor: "#fff" }),

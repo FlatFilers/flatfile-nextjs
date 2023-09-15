@@ -1,19 +1,20 @@
 "use client";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { ISpace, useSpace } from "@flatfile/react";
+import Link from "next/link";
 
 const Space = ({
-  setShowSpace,
+  callback,
   config,
 }: {
-  setShowSpace: Dispatch<SetStateAction<boolean>>;
+  callback: () => void;
   config: ISpace;
 }) => {
   const space = useSpace({
     ...config,
     closeSpace: {
       operation: "contacts:submit",
-      onClose: () => setShowSpace(false),
+      onClose: () => callback(),
     },
   });
   return space;
@@ -21,6 +22,7 @@ const Space = ({
 
 export default function App({ config }: { config: ISpace }) {
   const [showSpace, setShowSpace] = useState(false);
+  const [success, setSuccess] = useState(false);
   const credentials = !!config.publishableKey && !!config.environmentId;
   return (
     <div>
@@ -38,7 +40,13 @@ export default function App({ config }: { config: ISpace }) {
           </div>
           {showSpace && (
             <div id="flatfile_iFrameContainer">
-              <Space setShowSpace={setShowSpace} config={config} />
+              <Space
+                callback={() => {
+                  setShowSpace(false);
+                  setSuccess(true);
+                }}
+                config={config}
+              />
             </div>
           )}
         </>
@@ -60,6 +68,27 @@ export default function App({ config }: { config: ISpace }) {
           <span>
             Error! Please add your <pre>publishableKey</pre> and{" "}
             <pre>environmentId</pre>
+          </span>
+        </div>
+      )}
+      {success && (
+        <div className="alert alert-success mt-6">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>
+            Great Success! Now you might want to try out reusing a space,{" "}
+            <Link href="/reused-space">check out the next example here.</Link>
           </span>
         </div>
       )}
