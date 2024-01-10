@@ -12,10 +12,7 @@ export default function reuseSpace() {
         they left off until the task is done.
       </p>
       <div className="py-10">
-        <ReuseSpace
-          spaceId={'us_sp_Gp6yYR8h'}
-          environmentId={'us_env_1ejus9hB'}
-        />
+        <ReuseSpace spaceId={'us_sp_12345'} environmentId={'us_env_12345'} />
       </div>
     </div>
   );

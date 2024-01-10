@@ -6,9 +6,9 @@ import { workbook } from '../../app/workbooks/workbooks';
 const spaceProps: ISpace = {
   name: 'Embedded Space',
   // to test locally add your publishableKey here, for example: pk_12345,
-  publishableKey: 'pk_6e0577bd434b4f989c3add5ad4d9feaf',
+  publishableKey: 'pk_12345',
   // to test locally add your environmentId here, for example: us_env_12345,
-  environmentId: 'us_env_1ejus9hB',
+  environmentId: 'us_env_12345',
   workbook,
   listener,
   themeConfig: makeTheme({ primaryColor: '#546a76', textColor: '#fff' }),
