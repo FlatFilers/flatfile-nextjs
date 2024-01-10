@@ -1,5 +1,5 @@
-import { FlatfileListener } from '@flatfile/listener'
-import { recordHook } from '@flatfile/plugin-record-hook'
+import { FlatfileListener } from '@flatfile/listener';
+import { recordHook } from '@flatfile/plugin-record-hook';
 
 /**
  * Example Listener
@@ -22,13 +22,13 @@ export const listener = FlatfileListener.create((client) => {
   // )
   client.use(
     recordHook('TestSheet', (record) => {
-      const last_name = record.get('last_name')
-      console.log('passing through record hook', last_name)
+      const last_name = record.get('last_name');
+      console.log('passing through record hook', last_name);
       if (!last_name) {
-        console.log('last_name is required')
-        record.addError('last_name', 'Name is required')
+        console.log('last_name is required');
+        record.addError('last_name', 'Name is required');
       }
-      return record
+      return record;
     })
-  )
-})
+  );
+});

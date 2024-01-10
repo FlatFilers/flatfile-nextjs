@@ -1,26 +1,24 @@
-"use client";
-import React from "react";
-import { ISpace } from "@flatfile/react";
-import { listener } from "../../listeners/basic";
-import { workbook } from "../../workbooks/workbook";
-import NewSpaceApp from "./NewSpaceApp";
-
+import { ISpace, makeTheme } from '@flatfile/react';
+import React from 'react';
+import NewSpaceApp from '../../app/NewSpace';
+import { listener } from '../../app/listeners/listeners';
+import { workbook } from '../../app/workbooks/workbooks';
 const spaceProps: ISpace = {
-  name: "Embedded Space",
+  name: 'Embedded Space',
   // to test locally add your publishableKey here, for example: pk_12345,
-  publishableKey: "",
+  publishableKey: 'pk_6e0577bd434b4f989c3add5ad4d9feaf',
   // to test locally add your environmentId here, for example: us_env_12345,
-  environmentId: "",
+  environmentId: 'us_env_1ejus9hB',
   workbook,
-  listener: listener,
-  // themeConfig: makeTheme({ primaryColor: "#546a76", textColor: "#fff" }),
-  // sidebarConfig: {
-  //   showDataChecklist: false,
-  //   showSidebar: false,
-  // },
+  listener,
+  themeConfig: makeTheme({ primaryColor: '#546a76', textColor: '#fff' }),
+  sidebarConfig: {
+    showDataChecklist: false,
+    showSidebar: false
+  }
 };
 
-export default function Home() {
+export default function newSpace() {
   return (
     <div className="container px-20 pt-20">
       <h2 className="text-2xl font-bold mb-4">

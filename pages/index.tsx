@@ -1,9 +1,7 @@
-"use client";
-import React from "react";
-import styles from "./globals/page.module.css";
-import Link from "next/link";
+import Link from 'next/link';
+import React from 'react';
 
-export default function Home() {
+export default function index() {
   return (
     <div className="hero min-h-screen">
       <div className="hero-content text-center">
