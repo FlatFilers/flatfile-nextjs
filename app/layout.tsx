@@ -1,5 +1,5 @@
-import "./globals/global.css";
 import Menu from "./globals/Menu";
+import "./globals/global.css";
 
 export const metadata = {
   title: "Embedded Flatfile in a Next.js App",

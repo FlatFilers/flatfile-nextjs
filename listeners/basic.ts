@@ -1,34 +1,53 @@
-import { FlatfileListener } from '@flatfile/listener'
-import { recordHook } from '@flatfile/plugin-record-hook'
+import api from "@flatfile/api";
+import { FlatfileListener } from "@flatfile/listener";
+import { recordHook } from "@flatfile/plugin-record-hook";
 
 /**
  * Example Listener
  */
-export const listener = FlatfileListener.create((client) => {
-  // client.on('**', async (event) => {
-  //   const { spaceId } = event.context
-  //   const secret = await event.secrets('TEST', { spaceId })
-  //   console.log({ secret })
-  // })
+export const listener = FlatfileListener.create((listener) => {
+  listener.on("**", (event) => {
+    console.log(`Received event: ${event.topic}`);
+  });
 
-  // client.use(
-  //   recordHook('contacts', (record) => {
-  //     const firstName = record.get('firstName')
-  //     console.log({ firstName })
-  //     // Gettign the real types here would be nice but seems tricky
-  //     record.set('lastName', 'Rock')
-  //     return record
-  //   })
-  // )
-  client.use(
-    recordHook('TestSheet', (record) => {
-      const last_name = record.get('last_name')
-      console.log('passing through record hook', last_name)
-      if (!last_name) {
-        console.log('last_name is required')
-        record.addError('last_name', 'Name is required')
-      }
-      return record
+  listener.use(
+    recordHook("contacts", (record) => {
+      const firstName = record.get("firstName");
+      console.log({ firstName });
+      record.set("lastName", "Rock");
+      return record;
     })
-  )
-})
+  );
+
+  listener.filter({ job: "workbook:submitActionFg" }, (configure) => {
+    configure.on("job:ready", async ({ context: { jobId } }) => {
+      try {
+        await api.jobs.ack(jobId, {
+          info: "Getting started.",
+          progress: 10,
+        });
+
+        // Make changes after cells in a Sheet have been updated
+        console.log("Make changes here when an action is clicked");
+
+        await api.jobs.complete(jobId, {
+          outcome: {
+            acknowledge: true,
+            message: "This is now complete.",
+            next: {
+              type: "wait",
+            },
+          },
+        });
+      } catch (error: any) {
+        console.error("Error:", error.stack);
+
+        await api.jobs.fail(jobId, {
+          outcome: {
+            message: "This job encountered an error.",
+          },
+        });
+      }
+    });
+  });
+});

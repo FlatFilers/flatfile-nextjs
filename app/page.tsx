@@ -1,7 +1,6 @@
 "use client";
-import React from "react";
-import styles from "./globals/page.module.css";
 import Link from "next/link";
+import React from "react";
 
 export default function Home() {
   return (
