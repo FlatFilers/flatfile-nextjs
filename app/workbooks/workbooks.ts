@@ -2,54 +2,41 @@ import { Flatfile } from '@flatfile/api';
 
 export const workbook: Pick<
   Flatfile.CreateWorkbookConfig,
-  'name' | 'sheets' | 'actions'
+  'name' | 'labels' | 'sheets' | 'actions'
 > = {
-  name: 'Employees workbook',
+  name: 'All Data',
+  labels: ['pinned'],
   sheets: [
     {
-      name: 'TestSheet',
-      slug: 'TestSheet',
+      name: 'Contacts',
+      slug: 'contacts',
+      allowAdditionalFields: true,
       fields: [
         {
-          key: 'first_name',
+          key: 'firstName',
           type: 'string',
-          label: 'First name',
-          constraints: [
-            {
-              type: 'required'
-            }
-          ]
+          label: 'First Name'
         },
         {
-          key: 'last_name',
+          key: 'lastName',
           type: 'string',
-          label: 'last name'
+          label: 'Last Name'
         },
         {
-          key: 'full_name',
+          key: 'email',
           type: 'string',
-          label: 'full name'
-        }
-      ],
-      actions: [
-        {
-          label: 'Join fields',
-          operation: 'contacts:join-fields',
-          description: 'Would you like to join fields?',
-          mode: 'foreground',
-          confirm: true
+          label: 'Email'
         }
       ]
     }
   ],
   actions: [
     {
-      label: 'Submit',
-      operation: 'contacts:submit',
-      description: 'Would you like to submit your workbook?',
+      operation: 'submitActionFg',
       mode: 'foreground',
-      primary: true,
-      confirm: true
+      label: 'Submit foreground',
+      description: 'Submit data to webhook.site',
+      primary: true
     }
   ]
 };
