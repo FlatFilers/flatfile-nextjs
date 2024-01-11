@@ -1,11 +1,11 @@
-"use client";
-import React, { Dispatch, SetStateAction, useState } from "react";
-import { ISpace, useSpace } from "@flatfile/react";
-import Link from "next/link";
+'use client';
+import { ISpace, useSpace } from '@flatfile/react';
+import Link from 'next/link';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 
 const Space = ({
   callback,
-  config,
+  config
 }: {
   callback: () => void;
   config: ISpace;
@@ -13,14 +13,14 @@ const Space = ({
   const space = useSpace({
     ...config,
     closeSpace: {
-      operation: "contacts:submit",
-      onClose: () => callback(),
-    },
+      operation: 'contacts:submit',
+      onClose: () => callback()
+    }
   });
   return space;
 };
 
-export default function App({ config }: { config: ISpace }) {
+export default function NewSpace({ config }: { config: ISpace }) {
   const [showSpace, setShowSpace] = useState(false);
   const [success, setSuccess] = useState(false);
   const credentials = !!config.publishableKey && !!config.environmentId;
@@ -35,7 +35,7 @@ export default function App({ config }: { config: ISpace }) {
                 setShowSpace(!showSpace);
               }}
             >
-              {showSpace === true ? "Close" : "Open and create new"} space
+              {showSpace === true ? 'Close' : 'Open and create new'} space
             </button>
           </div>
           {showSpace && (
@@ -66,7 +66,7 @@ export default function App({ config }: { config: ISpace }) {
             />
           </svg>
           <span>
-            Error! Please add your <pre>publishableKey</pre> and{" "}
+            Error! Please add your <pre>publishableKey</pre> and{' '}
             <pre>environmentId</pre>
           </span>
         </div>
@@ -87,7 +87,7 @@ export default function App({ config }: { config: ISpace }) {
             />
           </svg>
           <span>
-            Great Success! Now you might want to try out reusing a space,{" "}
+            Great Success! Now you might want to try out reusing a space,{' '}
             <Link href="/reused-space">check out the next example here.</Link>
           </span>
         </div>

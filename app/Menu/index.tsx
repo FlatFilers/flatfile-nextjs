@@ -1,12 +1,10 @@
-"use client";
-import styles from "./page.module.css";
-import Link from "next/link";
-import "./global.css";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import styles from './Menu.module.css';
 
 const routes = [
-  { path: "/new-space", label: "New Space" },
-  { path: "/reused-space", label: "Reused Space" },
+  { path: '/new-space', label: 'New Space' },
+  { path: '/reuse-space', label: 'Reuse Space' }
 ];
 
 export default function Menu() {
@@ -24,7 +22,7 @@ export default function Menu() {
             key={path}
             href={path}
             className={`tab tab-bordered ${
-              currentRoute === path ? "tab-active" : ""
+              currentRoute === path ? 'tab-active' : ''
             }`}
           >
             {label}

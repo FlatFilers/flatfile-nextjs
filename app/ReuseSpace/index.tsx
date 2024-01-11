@@ -1,11 +1,10 @@
-"use client";
-import React, { Dispatch, SetStateAction, useState } from "react";
-import { ISpace, useSpace } from "@flatfile/react";
-import { useEffect } from "react";
+'use client';
+import { ISpace, useSpace } from '@flatfile/react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 const Space = ({
   setShowSpace,
-  config,
+  config
 }: {
   setShowSpace: Dispatch<SetStateAction<boolean>>;
   config: {
@@ -18,22 +17,22 @@ const Space = ({
     environmentId: config.environmentId,
     space: {
       id: config.spaceId,
-      accessToken: config.accessToken,
-    },
+      accessToken: config.accessToken
+    }
   };
   const space = useSpace({
     ...spaceProps,
     closeSpace: {
-      operation: "contacts:submit",
-      onClose: () => setShowSpace(false),
-    },
+      operation: 'contacts:submit',
+      onClose: () => setShowSpace(false)
+    }
   });
   return space;
 };
 
-function App({
+export default function ReuseSpace({
   spaceId,
-  environmentId,
+  environmentId
 }: {
   spaceId?: string;
   environmentId?: string;
@@ -55,7 +54,7 @@ function App({
       const spaceInfo = {
         spaceId,
         accessToken: json.space.data.accessToken,
-        environmentId,
+        environmentId
       };
 
       setData(spaceInfo);
@@ -105,7 +104,7 @@ function App({
           )}
           {error && (
             <span>
-              {error} Make sure to set the <pre>FLATFILE_API_KEY</pre> in your{" "}
+              {error} Make sure to set the <pre>FLATFILE_API_KEY</pre> in your{' '}
               <pre>.env</pre> file. <br />
               You can find that in your Flatfile Dashboard under Developer
               Settings.
@@ -125,7 +124,7 @@ function App({
             setShowSpace(!showSpace);
           }}
         >
-          {showSpace === true ? "Close" : "Open existing"} space
+          {showSpace === true ? 'Close' : 'Open existing'} space
         </button>
       </div>
       {showSpace && (
@@ -155,5 +154,3 @@ function App({
     </div>
   );
 }
-
-export default App;
