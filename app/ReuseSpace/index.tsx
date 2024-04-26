@@ -1,157 +1,106 @@
 "use client";
-import { ISpace, useSpace } from "@flatfile/react";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { listener } from "../listeners/listeners";
+import {
+  FlatfileContext,
+  Space,
+  useEvent,
+  useFlatfile,
+  usePlugin,
+} from "@flatfile/react";
+import React, { useContext, useEffect } from "react";
+import api from "@flatfile/api";
+import { recordHook } from "@flatfile/plugin-record-hook";
 
-const Space = ({
-  setShowSpace,
-  config,
-}: {
-  setShowSpace: Dispatch<SetStateAction<boolean>>;
-  config: {
-    spaceId: string;
-    environmentId: string;
-    accessToken: string;
-  };
-}) => {
-  const spaceProps: ISpace = {
-    environmentId: config.environmentId,
-    listener,
-    space: {
-      id: config.spaceId,
-      accessToken: config.accessToken,
-    },
-  };
-  return useSpace({
-    ...spaceProps,
-    closeSpace: {
-      operation: "simpleSubmitAction",
-      onClose: () => setShowSpace(false),
-    },
-  });
-};
-
-export default function ReuseSpace({
-  spaceId,
-  environmentId,
-}: {
-  spaceId?: string;
-  environmentId?: string;
-}) {
-  const [showSpace, setShowSpace] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<any>();
-  const [error, setError] = useState<any>();
-
+export default function ReuseSpace({ spaceId }: { spaceId?: string }) {
+  const { openPortal, open, closePortal } = useFlatfile();
+  const context = useContext(FlatfileContext);
   useEffect(() => {
-    const fetchData = async (spaceId: string) => {
-      const response = await fetch(`/api/spaces/${spaceId}`);
-      const json = await response.json();
-      if (json.error) {
-        setError(json.error);
-        setLoading(false);
-        return;
+    console.log({ context });
+  }, [context]);
+  // Can be used for debugging
+  useEvent("**", (event) => {
+    console.log("EVENT -> ", { event });
+  });
+
+  usePlugin(
+    recordHook("contacts", (record) => {
+      const firstName = record.get("firstName");
+      console.log({ firstName });
+      record.set("lastName", "Rock");
+      return record;
+    })
+  );
+
+  useEvent(
+    "job:ready",
+    { job: "workbook:submitActionFg" },
+    async ({ context: { jobId } }) => {
+      try {
+        await api.jobs.ack(jobId, {
+          info: "Getting started.",
+          progress: 10,
+        });
+
+        // Make changes after cells in a Sheet have been updated
+        console.log("Make changes here when an action is clicked");
+
+        await api.jobs.complete(jobId, {
+          outcome: {
+            acknowledge: true,
+            message: "This is now complete.",
+            next: {
+              type: "wait",
+            },
+          },
+        });
+      } catch (error: any) {
+        console.error("Error:", error.stack);
+
+        await api.jobs.fail(jobId, {
+          outcome: {
+            message: "This job encountered an error.",
+          },
+        });
       }
-      const spaceInfo = {
-        spaceId,
-        accessToken: json.space.data.accessToken,
-        ...(environmentId ? { environmentId } : {}),
-      };
-
-      setData(spaceInfo);
-      setLoading(false);
-    };
-
-    if (!spaceId) {
-      setLoading(false);
-      return;
     }
+  );
 
-    fetchData(spaceId).catch((err) => {
-      setLoading(false);
-      setError(err);
-    });
-  }, [spaceId, environmentId]);
-
-  if (loading) {
-    return (
-      <button className="btn">
-        <span className="loading loading-spinner"></span>
-        loading
-      </button>
-    );
-  }
-  if (!spaceId || error) {
-    return (
-      <div className="alert alert-error">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="stroke-current shrink-0 h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        <span className="flex-col">
-          {(!spaceId || !environmentId) && (
-            <span>
-              Please add a <pre>spaceId</pre> and <pre>environmentId</pre>
-            </span>
-          )}
-          {error && (
-            <span>
-              {error} Make sure to set the <pre>FLATFILE_API_KEY</pre> in your{" "}
-              <pre>.env</pre> file. <br />
-              You can find that in your Flatfile Dashboard under Developer
-              Settings.
-            </span>
-          )}
-        </span>
-      </div>
-    );
-  }
-
+  useEvent(
+    "job:outcome-acknowledged",
+    {
+      operation: "submitActionFg",
+      status: "complete",
+    },
+    async (event) => {
+      // any logic related to the event needed for closing the event
+      console.log("Window Closed!");
+      // close the portal iFrame window
+      closePortal();
+    }
+  );
   return (
     <div>
       <div>
         <button
           className="btn btn-primary"
           onClick={() => {
-            setShowSpace(!showSpace);
+            open ? closePortal() : openPortal();
           }}
         >
-          {showSpace === true ? "Close" : "Open existing"} space
+          {open ? "Close" : "Open existing"} space
         </button>
       </div>
-      {showSpace && (
-        <div id="flatfile_iFrameContainer">
-          {data?.accessToken ? (
-            <Space setShowSpace={setShowSpace} config={data} />
-          ) : (
-            <div className="alert alert-error">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="stroke-current shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span>No access token available.</span>
-            </div>
-          )}
-        </div>
-      )}
+      <div id="flatfile_iFrameContainer">
+        <Space
+          id={spaceId}
+          config={{
+            metadata: {
+              sidebarConfig: {
+                showSidebar: true,
+              },
+            },
+          }}
+        />
+      </div>
     </div>
   );
 }

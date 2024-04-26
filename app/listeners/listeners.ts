@@ -5,7 +5,7 @@ import { recordHook } from "@flatfile/plugin-record-hook";
 /**
  * Example Listener
  */
-export const listener = (listener: FlatfileListener) => {
+export const listener = FlatfileListener.create((listener) => {
   listener.on("**", (event) => {
     console.log(`Received event: ${event.topic}`, { event });
   });
@@ -81,4 +81,4 @@ export const listener = (listener: FlatfileListener) => {
       }
     });
   });
-};
+});
