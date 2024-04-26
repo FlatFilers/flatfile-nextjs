@@ -1,10 +1,11 @@
-'use client';
-import { ISpace, useSpace } from '@flatfile/react';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+"use client";
+import { ISpace, useSpace } from "@flatfile/react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { listener } from "../listeners/listeners";
 
 const Space = ({
   setShowSpace,
-  config
+  config,
 }: {
   setShowSpace: Dispatch<SetStateAction<boolean>>;
   config: {
@@ -15,24 +16,24 @@ const Space = ({
 }) => {
   const spaceProps: ISpace = {
     environmentId: config.environmentId,
+    listener,
     space: {
       id: config.spaceId,
-      accessToken: config.accessToken
-    }
+      accessToken: config.accessToken,
+    },
   };
-  const space = useSpace({
+  return useSpace({
     ...spaceProps,
     closeSpace: {
-      operation: 'contacts:submit',
-      onClose: () => setShowSpace(false)
-    }
+      operation: "simpleSubmitAction",
+      onClose: () => setShowSpace(false),
+    },
   });
-  return space;
 };
 
 export default function ReuseSpace({
   spaceId,
-  environmentId
+  environmentId,
 }: {
   spaceId?: string;
   environmentId?: string;
@@ -54,14 +55,14 @@ export default function ReuseSpace({
       const spaceInfo = {
         spaceId,
         accessToken: json.space.data.accessToken,
-        environmentId
+        ...(environmentId ? { environmentId } : {}),
       };
 
       setData(spaceInfo);
       setLoading(false);
     };
 
-    if (!spaceId || !environmentId) {
+    if (!spaceId) {
       setLoading(false);
       return;
     }
@@ -80,7 +81,7 @@ export default function ReuseSpace({
       </button>
     );
   }
-  if (!spaceId || !environmentId || error) {
+  if (!spaceId || error) {
     return (
       <div className="alert alert-error">
         <svg
@@ -104,7 +105,7 @@ export default function ReuseSpace({
           )}
           {error && (
             <span>
-              {error} Make sure to set the <pre>FLATFILE_API_KEY</pre> in your{' '}
+              {error} Make sure to set the <pre>FLATFILE_API_KEY</pre> in your{" "}
               <pre>.env</pre> file. <br />
               You can find that in your Flatfile Dashboard under Developer
               Settings.
@@ -124,7 +125,7 @@ export default function ReuseSpace({
             setShowSpace(!showSpace);
           }}
         >
-          {showSpace === true ? 'Close' : 'Open existing'} space
+          {showSpace === true ? "Close" : "Open existing"} space
         </button>
       </div>
       {showSpace && (
