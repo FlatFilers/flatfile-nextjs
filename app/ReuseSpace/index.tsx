@@ -1,7 +1,7 @@
 "use client";
-import React, { Dispatch, SetStateAction, useState } from "react";
 import { ISpace, useSpace } from "@flatfile/react";
-import { useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { listener } from "../listeners/listeners";
 
 const Space = ({
   setShowSpace,
@@ -16,22 +16,22 @@ const Space = ({
 }) => {
   const spaceProps: ISpace = {
     environmentId: config.environmentId,
+    listener,
     space: {
       id: config.spaceId,
       accessToken: config.accessToken,
     },
   };
-  const space = useSpace({
+  return useSpace({
     ...spaceProps,
     closeSpace: {
-      operation: "contacts:submit",
+      operation: "simpleSubmitAction",
       onClose: () => setShowSpace(false),
     },
   });
-  return space;
 };
 
-function App({
+export default function ReuseSpace({
   spaceId,
   environmentId,
 }: {
@@ -55,14 +55,14 @@ function App({
       const spaceInfo = {
         spaceId,
         accessToken: json.space.data.accessToken,
-        environmentId,
+        ...(environmentId ? { environmentId } : {}),
       };
 
       setData(spaceInfo);
       setLoading(false);
     };
 
-    if (!spaceId || !environmentId) {
+    if (!spaceId) {
       setLoading(false);
       return;
     }
@@ -81,7 +81,7 @@ function App({
       </button>
     );
   }
-  if (!spaceId || !environmentId || error) {
+  if (!spaceId || error) {
     return (
       <div className="alert alert-error">
         <svg
@@ -155,5 +155,3 @@ function App({
     </div>
   );
 }
-
-export default App;

@@ -1,7 +1,7 @@
 "use client";
-import React, { Dispatch, SetStateAction, useState } from "react";
 import { ISpace, useSpace } from "@flatfile/react";
 import Link from "next/link";
+import React, { useState } from "react";
 
 const Space = ({
   callback,
@@ -10,20 +10,19 @@ const Space = ({
   callback: () => void;
   config: ISpace;
 }) => {
-  const space = useSpace({
+  return useSpace({
     ...config,
     closeSpace: {
-      operation: "contacts:submit",
+      operation: "submitActionFg",
       onClose: () => callback(),
     },
   });
-  return space;
 };
 
-export default function App({ config }: { config: ISpace }) {
+export default function NewSpace({ config }: { config: ISpace }) {
   const [showSpace, setShowSpace] = useState(false);
   const [success, setSuccess] = useState(false);
-  const credentials = !!config.publishableKey && !!config.environmentId;
+  const credentials = !!config.publishableKey;
   return (
     <div>
       {credentials ? (

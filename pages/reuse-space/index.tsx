@@ -1,8 +1,13 @@
 "use client";
 import React from "react";
-import ReusedSpaceApp from "./ReusedSpaceApp";
+import ReuseSpace from "@/app/ReuseSpace";
 
-export default function Home() {
+export default function reuseSpace() {
+  const SPACE_ID = process.env.NEXT_PUBLIC_FLATFILE_SPACE_ID;
+  if (!SPACE_ID) {
+    return <>No SPACE_ID Provided</>;
+  }
+
   return (
     <div className="container px-20 pt-20">
       <h2 className="text-2xl font-bold mb-4">Reuse an existing Space</h2>
@@ -12,7 +17,7 @@ export default function Home() {
         they left off until the task is done.
       </p>
       <div className="py-10">
-        <ReusedSpaceApp spaceId={""} environmentId={""} />
+        <ReuseSpace spaceId={SPACE_ID} />
       </div>
     </div>
   );
