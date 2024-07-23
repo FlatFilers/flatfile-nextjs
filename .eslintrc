@@ -1,8 +1,8 @@
 {
   "extends": [
-    "eslint:recommended", 
+    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier", 
+    "prettier",
     "next/core-web-vitals"
   ],
   "plugins": [
@@ -31,7 +31,7 @@
   "rules": {
     "react/no-unescaped-entities": "off",
     "prettier/prettier": [
-      "error", 
+      "error",
       {
         "endOfLine": "lf",
         "singleQuote": true,
@@ -54,15 +54,15 @@
         }]
       }
     ],
-    "no-console": "warn",
     "no-undef": "error",
-    "no-unused-vars": "warn",
     "semi": 2,
     "no-extra-semi": 2,
-    "quotes": [2, "single", "avoid-escape"]
-    
-    // "indent": ["error", 2],
-    
+    "quotes": [2, "single", "avoid-escape"],
+
+    // the following are turned off because this is an example repo
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-console": "off"
   },
   "overrides": [{
     "files": ["*.cjs", "*.js"],
