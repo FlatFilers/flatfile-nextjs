@@ -3,8 +3,8 @@ import { usePathname } from 'next/navigation';
 import styles from './Menu.module.css';
 
 const routes = [
-  { path: '/new-space', label: 'New Space' },
-  { path: '/reuse-space', label: 'Reuse Space' }
+  { path: '/new-space', label: 'Triggering a new Import Session' },
+  { path: '/reused-space', label: 'Re-opening an Import Session' }
 ];
 
 export default function Menu() {

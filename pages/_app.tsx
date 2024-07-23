@@ -1,12 +1,7 @@
-import Layout from "@/app/Layout";
+import Layout from '@/app/Layout';
+import { AppProps } from 'next/app';
 
-export default function App({
-  Component,
-  pageProps
-}: {
-  Component: any;
-  pageProps: any;
-}) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
     <Layout>
       <Component {...pageProps} />
